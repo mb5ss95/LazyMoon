@@ -3,15 +3,12 @@ file_name = str()
 xW = int()
 yH = int()
 
+
 def exel_find_insert(ws, direction, name, msg):
     import os
     from openpyxl.drawing.image import Image
 
     global xW,yH
-
-    img = Image(os.path.join(direction, name)) 
-    img.height = yH
-    img.width = xW
 
     #ws.add_image(img, 'A2')
     for row, values in enumerate(ws.values):
@@ -21,6 +18,11 @@ def exel_find_insert(ws, direction, name, msg):
                 w = p.column_letter+str(p.row)
                 #ws.row_dimensions[p.row].height = yH
                 #ws.column_dimensions[p.column_letter].width = xW
+                img = Image(os.path.join(direction, name)) 
+                img.height = int(yH * 3.78)
+                img.width = int(xW * 3.78)
+                print(img.height, img.width)
+                
                 ws.add_image(img, w)
             
                 print("EXCEL IMG : ", name, ", ", msg, ", ", xW, ", ", yH, ", ", w, ", ", value)
@@ -96,7 +98,7 @@ def start():
         try:
             wb = openpyxl.load_workbook(file_name)
             ws = wb.active
-            print(wb.get_sheet_names())
+            #print(wb.get_sheet_names())
             
             for index, img_name in enumerate(img_list):
                 exel_find_insert(ws, img_direction, img_name, img_name)
