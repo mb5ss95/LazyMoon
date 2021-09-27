@@ -1,3 +1,6 @@
+from tkinter import XView
+
+
 image_dict = dict()
 file_name = str()
 xW = int()
@@ -16,13 +19,13 @@ def exel_find_insert(ws, direction, name, msg):
             if value == msg:
                 p = ws.cell(row=row+1, column=col+1, value="")
                 w = p.column_letter+str(p.row)
-                #ws.row_dimensions[p.row].height = yH
-                #ws.column_dimensions[p.column_letter].width = xW
-                img = Image(os.path.join(direction, name)) 
-                img.height = int(yH * 3.78)
-                img.width = int(xW * 3.78)
+                ws.row_dimensions[p.row].height = round(yH*2.834)
+                ws.column_dimensions[p.column_letter].width = round(xW*0.457)
+                img = Image(os.path.join(direction, name))
                 print(img.height, img.width)
-                
+                img.height = round(yH/0.26458)
+                img.width = round(xW/0.26458)
+                #220ppi
                 ws.add_image(img, w)
             
                 print("EXCEL IMG : ", name, ", ", msg, ", ", xW, ", ", yH, ", ", w, ", ", value)
@@ -136,15 +139,15 @@ def get_xy():
         global xW, yH
 
         try:
-            xW = int(Xentry.get())
-            yH = int(Yentry.get())
+            xW = float(Xentry.get())
+            yH = float(Yentry.get())
             if xW > 0 and yH > 0:
                 root.destroy()
             else:
                 raise(ValueError)
         except(ValueError):
             import tkinter.messagebox
-            tkinter.messagebox.showerror(    "메시지 알림", "  0보다 큰 정수를 입력하세요!!\n\n    다시 시도하세요")
+            tkinter.messagebox.showerror(    "메시지 알림", "  0보다 큰 수를 입력하세요!!\n\n    다시 시도하세요")
             root.destroy()
 
     button = tk.Button (root, text='확인',command=get_WH, width=20)
@@ -207,7 +210,7 @@ if __name__ == '__main__':
     import tkinter as tk
     
     window = tk.Tk()
-    window.title(" LazyMoon (Beta Version)")
+    window.title(" LazyMoon 2.0")
     window.geometry("400x300+50+50")
     window.resizable(False, False)
     window.iconbitmap('./.ico/DSU.ico')
